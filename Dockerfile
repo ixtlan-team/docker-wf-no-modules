@@ -19,6 +19,16 @@ RUN cd $HOME \
 # Ensure signals are forwarded to the JVM process correctly for graceful shutdown
 ENV LAUNCH_JBOSS_IN_BACKGROUND true
 
+# download wget and xmlstarlet as root
+USER root
+RUN yum -y install wget
+# get xmlstarlet 
+RUN wget http://dl.fedoraproject.org/pub/epel/7/x86_64/Packages/x/xmlstarlet-1.6.1-1.el7.x86_64.rpm
+RUN rpm -Uvh xmlstarlet*.rpm
+RUN yum install xmlstarlet
+
+USER jboss
+
 # Expose the ports we're interested in
 EXPOSE 8080
 
